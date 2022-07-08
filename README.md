@@ -5,9 +5,6 @@
 First, build the application using this command:
 mvn install
 
-Then, create the images of the application:
-docker build -t springboot-app .
-
 Lastly, lauch all the apps using this command:
 docker-compose up
 
