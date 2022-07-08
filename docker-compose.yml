@@ -1,0 +1,61 @@
+version: '3.6'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.2
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - elastic
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.16.2
+    container_name: logstash
+    command: logstash -f /logstash_dir/logstash.conf
+    volumes:
+      - ./logstash/:/logstash_dir
+    depends_on:
+      - elasticsearch
+    ports:
+      - 9600:9600
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - elastic
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.16.2
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+    networks:
+      - elastic
+
+  sprintboot-app-elk:
+    build: .
+    #    image: springboot-app
+    container_name: springboot-app-mvn
+    ports:
+      - 8081:8080
+    links:
+      - elasticsearch
+    networks:
+      - elastic
+
+volumes:
+  elasticsearch-data:
+    driver: local
+networks:
+  elastic:
+    driver: bridge

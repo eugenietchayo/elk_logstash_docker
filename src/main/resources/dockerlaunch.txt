@@ -1,0 +1,98 @@
+AAAA) docker manuellement
+I) Créer l'image de la base de données MongoDB
+a) puller une image (mongodb)
+docker pull mongo:latest
+
+docker images
+
+b) créer un container à partir de cet image ou rouler cet image
+docker ps
+- il n'y a pas de container ici
+
+docker run -d -p 27017:27017 --name soumission_mongodb mongo:latest
+
+docker ps
+- là on peut voir qu'un container est bien créé
+
+donc, il ya maintenant un container qui rouler et écoute sur le porte 27017
+
+c) pour avoir le client de ce container afin d'interagir avec les données de la base de dosnées
+docker exec -it soumission_mongodb bash
+mongo
+
+show dbs
+use InsurancePolicy
+
+show collections
+db.insurancepolicy.find().pretty()
+
+Ctrl + c pour quitter
+quit et exit pour revenir dans le terminal
+
+II) Créer l'image d'une application
+a) créer l'image de votre application spring boot
+Dans un terminal,rendez-vous d'abord sur le chemin où se trouve votre dossier
+(vous pouvez utiliser le terminal de InteliJ)
+
+docker build -t springboot-app:1.0 .
+où:
+springboot-app est le nom de l'image et
+1.0 est la version de l'image
+. est le target, où on veut l'image
+
+docker images
+
+b) créer un container à partir de cet image ou rouler cet image.
+Ce container qui est le container d'une application va être lié à la base de données;
+donc, on utilise --link pour lier l'application à la base de données
+
+docker ps
+- il n'y a pas de container encore
+
+docker run -p 8081:8080 --name springboot-app-mongodb --link soumission_mongodb:mongo -d springboot-app:1.0
+
+docker ps
+- là on peut voir que le container de l'application est bien créé
+
+donc, il ya maintenant un container qui rouler et écoute sur le port 8081
+
+c) voir tous les logs
+docker logs springboot-app-mongodb
+
+
+--
+docker images
+docker ps
+DOnc, en résumé, on aura 2 images et 2 container lancés
+
+III) supprimer les images et les containers
+
+
+------
+* docker stop ID pour supprimer les containers
+exemple:
+docker stop 8daa392bdb6d
+
+* docker system prune -f pour supprimer ceux en arrière plan
+
+* docker rmi ID pour supprimer les images
+docker rmi 798d1656acba
+
+docker images
+docker ps
+
+
+BBBB) docker avec docker-compose
+1) puller les images de
+- mongodb
+- application springboot: Dans un terminal,rendez-vous d'abord sur le chemin où se trouve votre dossier
+(vous pouvez utiliser le terminal de InteliJ)
+
+docker pull mongo:latest
+docker build -t springboot-app:1.0 .
+
+docker images
+
+2) rouler le fichier docker-compose
+voici ce qui se trouve dans ce fichier docker-compose:
+

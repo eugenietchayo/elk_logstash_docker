@@ -1,0 +1,59 @@
+[
+  {
+    "id": "1",
+    "customerName": "Eugenie Tcha",
+    "policyDate": "2022-04-01T23:28:56.782Z",
+    "previousInsurer": "Desjardins",
+    "vehicles": [
+      "v1",
+      "v2"
+    ],
+    "drivers": [
+      "d1",
+      "d2",
+      "d3"
+    ],
+    "assignments": [
+      "v1,d1,P",
+      "v1,d2,O",
+      "v2,d1,O",
+      "v2,d2,P",
+      "v2,d3,O"
+    ]
+  },
+  {
+    "id": "2",
+    "customerName": "Maltais Cam",
+    "policyDate": "2022-05-03T23:28:56.782Z",
+    "previousInsurer": "Desjardins",
+    "vehicles": [
+      "v1",
+      "v2"
+    ],
+    "drivers": [
+      "d1",
+      "d2"
+    ],
+    "assignments": [
+      "v1,d1,P",
+      "v2,d2,P",
+      "v1,d2,O",
+      "v2,d1,O"
+    ]
+  },
+  {
+    "id": "3",
+    "customerName": "Éric Cantonais",
+    "policyDate": "2022-04-16T23:28:56.782Z",
+    "previousInsurer": "",
+    "vehicles": [
+      "v1"
+    ],
+    "drivers": [
+      "d1"
+    ],
+    "assignments": [
+      "v1,d1,P"
+    ]
+  }
+]
