@@ -1,0 +1,15 @@
+version: "3.4"
+services:
+  soumission_mongodb:
+    image: mongo
+    container_name: soumission_mongodb
+    ports:
+      - 27017:27017
+  sprintboot-app-mongodb:
+    image: springboot-app
+    container_name: springboot-app-mvn
+    ports:
+      - 8081:8080
+    links:
+      - soumission_mongodb
+
